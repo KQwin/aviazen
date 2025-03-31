@@ -24,6 +24,6 @@
 ## ⚙️ Ishga tushirish (Local)
 
 1. Python 3.10 ni o‘rnating
-2. Kerakli kutubxonani o‘rnating:
+2. `requirements.txt` faylni o‘rnating:
    ```bash
    pip install -r requirements.txt
