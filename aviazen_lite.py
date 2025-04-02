@@ -19,20 +19,20 @@ def search_ticket(update: Update, context: CallbackContext):
     try:
         from_city, to_city = text.strip().split()
 
-        # Shahar nomlarini IATA kodga aylantirishni oddiylashtirish uchun faqat 3 harflik kod ishlatamiz (aviasales.com qoidasi)
-        # Masalan: Tashkent – TAS, Istanbul – IST
-        # (Amalda bu IATA kodlar bazasi kerak bo‘ladi)
-        # Bu demo uchun sinov ko‘rinishida ishlaydi
-
         from_code = city_to_iata(from_city)
         to_code = city_to_iata(to_city)
-        date = "01"  # eng oddiy default sana
+        date = "01"  # oddiy sinov sanasi
 
         link = AFFILIATE_LINK_BASE.format(from_city=from_code, to_city=to_code, date=date)
-        update.message.reply_text(f"https://tp.media/r?marker=619458&trs=404323&p=4114&u=https%3A%2F%2Faviasales.com%2Fsearch%2F{from_city}{date}{to_city}1&campaign_id=100")
+
+        # CHIROYLI LINK
+        update.message.reply_text(
+            f"✈️ Siz uchun arzon chipta: <a href='{link}'>Aviasales orqali qidirish</a>",
+            parse_mode='HTML'
+        )
+
     except:
         update.message.reply_text("❗Iltimos, shunday yozing: Tashkent Istanbul")
-
 # IATA kodlarni oddiy dictionary orqali aniqlash (asosiy sinov uchun)
 def city_to_iata(city):
     city = city.lower()
