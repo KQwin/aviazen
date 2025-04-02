@@ -1,28 +1,55 @@
 from telegram import Update
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
+import urllib.parse
 
-# Sizning affiliate havolangiz (marker=619458)
-AFFILIATE_LINK = "https://tp.media/r?marker=619458&trs=404323&p=4114&u=https%3A%2F%2Faviasales.com&campaign_id=100}"
+# Aviasales affiliate link bazasi
+AFFILIATE_LINK_BASE = "https://tp.media/r?marker=619458&trs=404323&p=4114&u=https%3A%2F%2Faviasales.com%2Fsearch%2F{from_city}{date}{to_city}1&campaign_id=100"
 
-# /start komandasi uchun funksiyamiz
+# Foydalanuvchini boshlash komandasi
 def start(update: Update, context: CallbackContext):
     update.message.reply_text(
         "✈️ Salom! Men Aviazen Lite botman.\n"
         "Qayerdan qayerga uchmoqchisiz?\n\n"
-        "Misol uchun: Tashkent Istanbul"
+        "Masalan: Tashkent Istanbul"
     )
 
-# Foydalanuvchi yozgan matndan yo‘nalish chiqarish
+# Foydalanuvchi yozgan yo‘nalishni ishlovchi funksiyasi
 def search_ticket(update: Update, context: CallbackContext):
     text = update.message.text
     try:
         from_city, to_city = text.strip().split()
-        link = AFFILIATE_LINK.format(from_city=from_city, to_city=to_city)
-        update.message.reply_text(f"🔗 Siz uchun chipta qidiruvi: {link}")
+
+        # Shahar nomlarini IATA kodga aylantirishni oddiylashtirish uchun faqat 3 harflik kod ishlatamiz (aviasales.com qoidasi)
+        # Masalan: Tashkent – TAS, Istanbul – IST
+        # (Amalda bu IATA kodlar bazasi kerak bo‘ladi)
+        # Bu demo uchun sinov ko‘rinishida ishlaydi
+
+        from_code = city_to_iata(from_city)
+        to_code = city_to_iata(to_city)
+        date = "01"  # eng oddiy default sana
+
+        link = AFFILIATE_LINK_BASE.format(from_city=from_code, to_city=to_code, date=date)
+        update.message.reply_text(f"🔗 Siz uchun arzon chipta havolasi:\n{link}")
     except:
         update.message.reply_text("❗Iltimos, shunday yozing: Tashkent Istanbul")
 
-# Botni ishga tushirish funksiyasi
+# IATA kodlarni oddiy dictionary orqali aniqlash (asosiy sinov uchun)
+def city_to_iata(city):
+    city = city.lower()
+    mapping = {
+        "tashkent": "TAS",
+        "istanbul": "IST",
+        "moscow": "MOW",
+        "dubai": "DXB",
+        "newyork": "NYC",
+        "london": "LON",
+        "paris": "PAR",
+        "seoul": "SEL",
+        "tokyo": "TYO"
+    }
+    return mapping.get(city, "TAS")  # Agar topilmasa default TAS
+
+# Botni ishga tushirish
 def main():
     updater = Updater("8128482653:AAHPBfPpinWcif2IBiSfn_3VILBcJ3nBkdw", use_context=True)
     dp = updater.dispatcher
