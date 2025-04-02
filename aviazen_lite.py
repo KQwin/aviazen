@@ -2,7 +2,7 @@ from telegram import Update
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
 
 # Sizning affiliate havolangiz (marker=619458)
-AFFILIATE_LINK = "https://kruiz-online.tp.st/R14SIpzf?from={from_city}&to={to_city}"
+AFFILIATE_LINK = "https://tp.media/r?marker=619458&trs=404323&p=4114&u=https%3A%2F%2Faviasales.com&campaign_id=100}"
 
 # /start komandasi uchun funksiyamiz
 def start(update: Update, context: CallbackContext):
