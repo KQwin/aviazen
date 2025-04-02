@@ -28,11 +28,12 @@ def search_ticket(update: Update, context: CallbackContext):
         # CHIROYLI LINK
         update.message.reply_text(
             f"✈️ Siz uchun arzon chipta: <a href='{link}'>Aviasales orqali qidirish</a>",
-            parse_mode='HTML'
-        )
+            parse_mode='HTML')
+        except:
+          update.message.reply_text("❗Iltimos, shunday yozing: Tashkent Istanbul")
 
-    except:
-        update.message.reply_text("❗Iltimos, shunday yozing: Tashkent Istanbul")
+
+
 # IATA kodlarni oddiy dictionary orqali aniqlash (asosiy sinov uchun)
 def city_to_iata(city):
     city = city.lower()
