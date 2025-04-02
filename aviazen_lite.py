@@ -29,7 +29,7 @@ def search_ticket(update: Update, context: CallbackContext):
         date = "01"  # eng oddiy default sana
 
         link = AFFILIATE_LINK_BASE.format(from_city=from_code, to_city=to_code, date=date)
-        update.message.reply_text(f"🔗 Siz uchun arzon chipta havolasi:\n{link}")
+        update.message.reply_text(f"https://tp.media/r?marker=619458&trs=404323&p=4114&u=https%3A%2F%2Faviasales.com%2Fsearch%2F{from_city}{date}{to_city}1&campaign_id=100")
     except:
         update.message.reply_text("❗Iltimos, shunday yozing: Tashkent Istanbul")
 
